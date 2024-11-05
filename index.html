@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointment Booking</title>
+  <style>
+    /* Styling for the form */
+    body { font-family: Arial, sans-serif; text-align: center; }
+    form { width: 100%; max-width: 600px; margin: 0 auto; }
+    input, textarea { width: 100%; padding: 10px; margin: 8px 0; }
+    button { padding: 12px 20px; }
+  </style>
+</head>
+<body>
+  <h1>Appointment Booking</h1>
+  <form id="appointmentForm">
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="text" id="icPassport" placeholder="IC / Passport" required>
+    <input type="tel" id="phone" placeholder="Phone Number" required>
+    <input type="date" id="appointmentDate" required>
+    <input type="time" id="appointmentTime" required>
+    <input type="text" id="appointmentPurpose" placeholder="Appointment Purpose" required>
+    <textarea id="remark" placeholder="Remark"></textarea>
+    <button type="button" onclick="submitForm()">Submit</button>
+  </form>
+
+  <script>
+    function submitForm() {
+      // Get the values from the form fields
+      const formData = {
+        name: document.getElementById('name').value,
+        icPassport: document.getElementById('icPassport').value,
+        phone: document.getElementById('phone').value,
+        appointmentDate: document.getElementById('appointmentDate').value,
+        appointmentTime: document.getElementById('appointmentTime').value,
+        appointmentPurpose: document.getElementById('appointmentPurpose').value,
+        remark: document.getElementById('remark').value
+      };
+      
+      // URL of your Google Apps Script Web App
+      const scriptURL = 'YOUR_WEB_APP_URL';
+
+      // Send form data using fetch API
+      fetch(scriptURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          alert('Appointment booked successfully!');
+        } else {
+          alert('Error: ' + data.message);
+        }
+      })
+      .catch(error => alert('Error: ' + error.message));
+    }
+  </script>
+</body>
+</html>
